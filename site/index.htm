@@ -1,0 +1,1467 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+<table width="95%" border="0">
+  <tr> 
+    <td><img src="imagens/logoborcon.jpg" width="400" height="217"></td>
+    <td><div align="center"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">Palestra<br>
+        <br>
+        <strong>Um caso real de utiliza&ccedil;&atilde;o de WebServices e SOAP</strong><br>
+        <br>
+        Belisario R. de Abreu</font></div></td>
+  </tr>
+</table>
+<p><br>
+  <strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Objetivo:<br>
+  </font></strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Demonstrar 
+  na pr&aacute;tica a utiliza&ccedil;&atilde;o de WebServices &amp; SOAP com DataModule, 
+  como solu&ccedil;&atilde;o para uma aplica&ccedil;&atilde;o solicitada por um 
+  cliente cujo prazo de implanta&ccedil;&atilde;o era &quot;pra manh&atilde;&quot;.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>O problema:<br>
+  </strong></font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">O 
+  cliente possuia um site hospedado em um provedor e queria que todos os seus 
+  afiliados participassem de um concurso que o conselho regional iria realizar. 
+  Para participar deste concurso o afiliado deveria preencher uma ficha de inscri&ccedil;&atilde;o. 
+  Esta ficha, em papel, foi enviada para todos os afiliados que podiam optar entre 
+  preench&ecirc;-la e envi&aacute;-la pelo correio ou fazer download de um programa 
+  que simulava a ficha e fazia a inscri&ccedil;&atilde;o &quot;on-line&quot;, 
+  via conex&atilde;o com a Internet.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Restri&ccedil;&otilde;es:<br>
+  </strong></font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Por 
+  quest&otilde;es de seguran&ccedil;a o cliente n&atilde;o queria a utiliza&ccedil;&atilde;o 
+  de navegadores em fun&ccedil;&atilde;o da facilidade de clonagem de p&aacute;ginas. 
+  Desta forma n&atilde;o poder&iacute;amos utilizar ASP ou PHP.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>A solu&ccedil;&atilde;o:</strong><br>
+  Depois de pesquisarmos as tecnologias dispon&iacute;ves no mercado para atendermos 
+  a solicita&ccedil;&atilde;o do cliente, respeitando as restri&ccedil;&otilde;es 
+  do modelo, chegamos a conclus&atilde;o que a melhor op&ccedil;&atilde;o, em 
+  fun&ccedil;&atilde;o do prazo para o desenvolvimento, era a ado&ccedil;&atilde;o 
+  do WebService &amp; SOAP.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Conceito:</strong><br>
+  Quando voc&ecirc; desenvolve um webservice est&aacute; disponibilizando m&eacute;todos 
+  remotos para qualquer programa cliente de qualquer plataforma. Surpreso!, pois 
+  &eacute; isso mesmo. Qualquer linguagem ou scripts que tenha acesso ao protocolo 
+  <a href="http://www.w3.org/TR/soap/" target="_blank">SOAP-SIMPLE OBJECT ACCESS 
+  PROTOCOL</a> poder&aacute; acessar remotamente, atrav&eacute;s da Internet, 
+  os m&eacute;todos do nosso webservice, se permitirmos &eacute; claro. Uma das 
+  fortes caracter&iacute;sticas deste protocolo &eacute; que ele &eacute; transportado 
+  via HTTP passando por todos Firewalls. Al&eacute;m disso, toda comunica&ccedil;&atilde;o 
+  &eacute; efetuada em XML. A conversa com o webservice &eacute; feita e estruturada 
+  atrav&eacute;s do padr&atilde;o <a href="http://www.w3.org/TR/wsdl" target="_blank">WSDL-Web 
+  Services Description Language (WSDL) 1.1</a> . Nele est&atilde;o contidas, tamb&eacute;m 
+  em XML, todas as informa&ccedil;&otilde;es necess&aacute;rias para acessar os 
+  m&eacute;todos do webservices. Nosso objetivo &eacute; mostrar a contru&ccedil;&atilde;o 
+  de um webservice e como consum&iacute;-lo e n&atilde;o teoriz&aacute;-lo. Caso 
+  voc&ecirc; queira se aprofundar no assunto vale a pena dar uma olhada nos links 
+  acima.</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Resumindo:</strong><br>
+  O cliente tem pressa e vamos imediatamente para a pr&aacute;tica. </font></p>
+<p align="left">&nbsp;</p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Caso 
+  pr&aacute;tico da utiliza&ccedil;&atilde;o de um WebService com acesso ao m&eacute;todo 
+  de verifica&ccedil;&atilde;o do CPF e acesso a banco de dados</strong></font></p>
+<p align="left">&nbsp;</p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>O 
+  que voc&ecirc; vai precisar para nos acompanhar:</strong></font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">.Delphi 
+  7 Enterprise<br>
+  .MS-IIS-Internet Information Server<br>
+  .MS-Access 2000 <br>
+  .MS-Windows 2000</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>O 
+  que n&oacute;s vamos fazer</strong></font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Vamos 
+  criar um webservice que atualizar&aacute; um banco de dados (incluindo, alterando 
+  e excluindo registros) e fornecer&aacute; um m&eacute;doto que calcula o d&iacute;gito 
+  de controle do CPF. O interessado faz o download do nosso programa cliente, 
+  digita seu CPF. O cliente se conecta com o webservice, passa o CPF e espera 
+  a resposta. Se o CPF for v&aacute;lido o Cliente pede para o WebService verificar 
+  se ele j&aacute; est&aacute; cadastrado no banco de dados. Se estiver cadastrado 
+  o Cliente mostra os dados para o interessado efetuar altera&ccedil;&atilde;o. 
+  Se n&atilde;o estiver cadastrado o Cliente coloca o banco de dados no modo de 
+  inser&ccedil;&atilde;o e aguarda o preenchimento dos campos para efetuar a inclus&atilde;o 
+  deste novo registro.</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>1.Vamos 
+  criar o nosso ambiente de trabalho:</strong></font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Crie 
+  3 subpastas:<br>
+  <br>
+  C:\MeuWebService\Dados<br>
+  C:\MeuWebService\Server<br>
+  C:\MeuWebService\Cliente</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>2.O 
+  pr&oacute;ximo passo ser&aacute; a cria&ccedil;&atilde;o da tabela, MS-Access 
+  2000, que receber&aacute; os inscritos ao concurso. </strong></font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Crie 
+  uma tabela com os campos abaixo e de nome a tabela de &quot;CadInsc&quot; e 
+  ao banco de dados d&ecirc; o nome de concurso.mdb.</font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Grave 
+  o banco de dados na pasta</font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">C:\MeuWebService\Dados</font><br>
+</p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/tabaccess.gif" width="425" height="213"></div></td>
+  </tr>
+</table>
+<p align="left"><br>
+  <br>
+  <br>
+  <strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">3.Configurando 
+  o IIS-Internet Information Server para o disponibilizar o nosso webservice ISAPI.</font></strong></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Quando 
+  iniciarmos o desenvolvimento do nosso webservice, atrav&eacute;s do Delphi 7 
+  Enterprise, a DLL resultante ser&aacute; gravada na pasta C:\MeuWebService\Server 
+  . Desta forma precisamos criar uma pasta virtual no IIS que apontar&aacute; 
+  para a pasta real que contem a DLL que no nosso caso estar&aacute; em C:\MeuWebService\Server. 
+  N&atilde;o se preocupe que a pasta virtual &eacute; um ALIAS igual ao que faz&iacute;amos 
+  no tempo do BDE.</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Inicie 
+  o gerenciador do IIS-Internet Information Server, <br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/iis01.gif" width="323" height="449"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  <br>
+  </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">clique 
+  com o bot&atilde;o direito do mouse sobre a linha &quot;Site Web Padr&atilde;o&quot;(conforme 
+  figura acima). Selecione Novo&gt;Pasta Virtual e clique no bot&atilde;o &quot;Avan&ccedil;ar.</font><br>
+</p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/iis02.gif" width="482" height="374"></div></td>
+  </tr>
+</table>
+<p align="center"><br>
+</p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Como 
+  na tela acima d&ecirc; o nome &quot;MeuWebService&quot; ao campo Alias e clique 
+  no bot&atilde;o avan&ccedil;ar.</font><br>
+</p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/iis03.gif" width="482" height="374"></div></td>
+  </tr>
+</table>
+<p align="left"><br>
+  <br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Como na tela acima 
+  digite o caminho onde a DLL ser&aacute; gravada no nosso caso ser&aacute; em 
+  C:\MeuWebService\Server. O Alias (nome da pasta virtual) apontar&aacute; para 
+  o caminho real onde se encontra a DLL. Clique no bot&atilde;o avan&ccedil;ar.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/iis04.gif" width="482" height="374"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  <br>
+  Na tela acima marca o checkbox &quot;Executar(aplicativos ISAPI ou CGI, por 
+  exemplo). Click nos bot&otilde;es avan&ccedil;ar e concluir. Lembre-se que iremos 
+  desenvolver o nosso webservice no padr&atilde;o ISAPI. </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">A 
+  primeira parte do nosso desenvolvimento j&aacute; est&aacute; pronta. J&aacute; 
+  criamos o nosso banco de dados, nossas pastas de trabalho e j&aacute; configuramos 
+  o IIS para disponibilizar a nossa DLL que ser&aacute; gerada pelo Delphi 7. 
+  Agora vamos desenvolver o nosso webservice.</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>4.Desenvolvendo 
+  o webservice<br>
+  <br>
+  </strong>Inicie uma inst&acirc;ncia do Delphi 7.<br>
+  <br>
+  Clique em <font color="#660000">File&gt;New&gt;Other</font><br>
+  <br>
+  Selecione a aba WebServices, conforme figura abaixo.<br>
+  <br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/server01.gif" width="443" height="365"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> </font></p>
+<p align="center">&nbsp;</p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">D&ecirc; 
+  um duplo clique no objeto SOAP Server Application.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/server02.gif" width="325" height="270"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Selecione 
+  a op&ccedil;&atilde;o ISAPI/NSAPI Dynamic Link Library.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/server03.gif" width="252" height="122"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  <br>
+  <br>
+  <br>
+  Clique no bot&atilde;o Yes para o Delphi iniciar a cria&ccedil;&atilde;o das 
+  units. Importante: Se o seu webservice for apenas um servidor de dados voc&ecirc; 
+  n&atilde;o precisar&aacute; gerar esta Interface. No nosso caso estamos respondendo 
+  para que ela seja gerada pois vamos querer disponibilizar uma Interface com 
+  o m&eacute;todo de c&aacute;lculo do d&iacute;gito de controle do CPF. Trata-se 
+  de uma fun&ccedil;&atilde;o que recebe o CPF e retorna False ou True.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/server04.gif" width="445" height="208"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  <br>
+  Nesta fase, identifique qual o nome do servi&ccedil;o que queremos criar e o 
+  nome da unit que ser&aacute; gerada. Marque a caixa &quot;Generate sample methods&quot; 
+  para o Delphi criar os m&eacute;todos de exemplo facilitando um pouco o nosso 
+  trabalho. Neste nosso webservice estamos criando um servi&ccedil;o que verificar&aacute; 
+  a validade do d&iacute;gito de controle do CPF. Vamos dar o nome ao servi&ccedil;o 
+  de VerificaCPF.</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Repare 
+  que o Delphi gerou 4 units. Vamos salvar o projeto. Selecione, no Delphi, <font color="#660000">File&gt;Save 
+  project as</font> </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">A 
+  primeira unit ou unit1(&eacute; a unit do WebModule1) salve, na pasta C:\MeuWebService\Server, 
+  como UVerificaCPF.pas,<br>
+  A segunda unit deve ser a VerificaCPFImpl.pas (invokable implementation) , salve 
+  na pasta C:\MeuWebService\Server, como VerificaCPFImpl.pas<br>
+  A terceira unit deve ser a VerificaCPFIntf.pas (invokable Interface) , salve 
+  na pasta C:\MeuWebService\Server, como VerificaCPFIntf.pas<br>
+  A quarta deve ser o projeto, salve na pasta C:\MeuWebService\Server, como VerificaCPF.dpr<br>
+  <br>
+  vamos mostrar, a seguir, como ficaram as units geradas pelo Delphi. Repare que 
+  at&eacute; agora n&atilde;o escrevemos nenhuma linha de c&oacute;digo.:<br>
+  <br>
+  <font color="#FF0000">Existe um grave erro na gera&ccedil;&atilde;o da library 
+  VerificaCPF que me custou horas para descobrir e que deve ter induzido v&aacute;rias 
+  pessoas a desistirem do websrvice, via Delphi, gra&ccedil;as &agrave; este erro. 
+  As units <font face="Verdana, Arial, Helvetica, sans-serif"><font size="2">ISAPIThreadPool 
+  e <font face="Verdana, Arial, Helvetica, sans-serif"><font color="#FF0000">ISAPIApp</font></font></font> 
+  est&atilde;o na ordem inversa. Compilando desta forma, o webservice para ISAPI 
+  n&atilde;o funciona. Mude a ordem destas units para <font size="2" face="Verdana, Arial, Helvetica, sans-serif"><font color="#FF0000"><font face="Verdana, Arial, Helvetica, sans-serif"><font size="2"><font color="#FF0000">ISAPIApp</font></font></font></font></font></font> 
+  e <font size="2" face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif"><font size="2">ISAPIThreadPool</font></font></font></font> 
+  <font color="#FF0000">como mostro no quadro verde abaixo.</font></font></p>
+<table width="100%" border="1">
+  <tr>
+    <td bgcolor="#FFFF00"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">unit 
+      principal ser&aacute; uma DLL (VerificaCPF.dll) <strong>ANTES</strong></font></td>
+    <td bgcolor="#00FF33"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">unit 
+      principal ser&aacute; uma DLL (VerificaCPF.dll) <strong>DEPOIS</strong></font></td>
+  </tr>
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">library VerificaCPF; 
+      </font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      <p><font size="2">uses<br>
+        ActiveX,<br>
+        ComObj,<br>
+        WebBroker,</font></p>
+      <p>//As units em vermelho est&atilde;o invertidas. Mude a ordem!!</p>
+      <p><font size="2"><br>
+        <font color="#FF0000">ISAPIThreadPool,<br>
+        ISAPIApp,</font><br>
+        </font></p>
+      <p>&nbsp;</p>
+      <p><font size="2">UVerificaCPF in 'UVerificaCPF.pas' {WebModule1: TWebModule},<br>
+        VerificaCPFImpl in 'VerificaCPFImpl.pas',<br>
+        VerificaCPFIntf in 'VerificaCPFIntf.pas';</font></p>
+      <p><font size="2">{$R *.res}</font></p>
+      <p><font size="2">exports<br>
+        GetExtensionVersion,<br>
+        HttpExtensionProc,<br>
+        TerminateExtension;</font></p>
+      <p><font size="2">begin<br>
+        CoInitFlags := COINIT_MULTITHREADED;<br>
+        Application.Initialize;<br>
+        Application.CreateForm(TWebModule1, WebModule1);<br>
+        Application.Run;<br>
+        end.</font></p>
+      </font></td>
+    <td valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">library 
+      VerificaCPF; </font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      <p><font size="2">uses<br>
+        ActiveX,<br>
+        ComObj,<br>
+        WebBroker,<br>
+        <br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif">//As units na 
+        ordem certa!</font><font size="2"><br>
+        <br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"><font color="#FF0000" size="2">ISAPIApp,</font></font><font color="#FF0000" size="2"><br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"><font color="#FF0000" size="2">ISAPIThreadPool,</font><font size="2"></font></font><font color="#FF0000" size="2"> 
+        </font></p>
+      <p><font size="2"><br>
+        <br>
+        UVerificaCPF in 'UVerificaCPF.pas' {WebModule1: TWebModule},<br>
+        VerificaCPFImpl in 'VerificaCPFImpl.pas',<br>
+        VerificaCPFIntf in 'VerificaCPFIntf.pas';</font></p>
+      <p><font size="2">{$R *.res}</font></p>
+      <p><font size="2">exports<br>
+        GetExtensionVersion,<br>
+        HttpExtensionProc,<br>
+        TerminateExtension;</font></p>
+      <p><font size="2">begin<br>
+        CoInitFlags := COINIT_MULTITHREADED;<br>
+        Application.Initialize;<br>
+        Application.CreateForm(TWebModule1, WebModule1);<br>
+        Application.Run;<br>
+        end.</font></p>
+      </font></td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="1">
+  <tr>
+    <td bgcolor="#FFFF00"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">unit 
+      UVerificaCPF; (SOAP WebModule). </font></td>
+  </tr>
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">{ SOAP WebModule 
+      }<br>
+      unit UVerificaCPF; </font><font face="Verdana, Arial, Helvetica, sans-serif">
+      <p><font size="2">interface</font></p>
+      <p><font size="2">uses<br>
+        SysUtils, Classes, HTTPApp, InvokeRegistry, WSDLIntf, TypInfo,<br>
+        WebServExp, WSDLBind, XMLSchema, WSDLPub, SOAPPasInv, SOAPHTTPPasInv,<br>
+        SOAPHTTPDisp, WebBrokerSOAP;</font></p>
+      <p><font size="2">type<br>
+        TWebModule1 = class(TWebModule)<br>
+        HTTPSoapDispatcher1: THTTPSoapDispatcher;<br>
+        HTTPSoapPascalInvoker1: THTTPSoapPascalInvoker;<br>
+        WSDLHTMLPublish1: TWSDLHTMLPublish;<br>
+        procedure WebModule1DefaultHandlerAction(Sender: TObject;<br>
+        Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);<br>
+        private<br>
+        { Private declarations }<br>
+        public<br>
+        { Public declarations }<br>
+        end;</font></p>
+      <p><font size="2">var<br>
+        WebModule1: TWebModule1;</font></p>
+      <p><font size="2">implementation</font></p>
+      <p><font size="2">{$R *.dfm}</font></p>
+      <p><font size="2">procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: 
+        TObject;<br>
+        Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);<br>
+        begin<br>
+        WSDLHTMLPublish1.ServiceInfo(Sender, Request, Response, Handled);<br>
+        end;</font></p>
+      </font> <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">end.<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"> </font> </p></td>
+  </tr>
+</table>
+<p> <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Estas 2 units(abaixo) 
+  foram geradas para que possamos implementar o nosso m&eacute;todo e interface 
+  que calcula o d&iacute;gito de controle do CPF. Ainda n&atilde;o implementamos 
+  o nosso m&eacute;todo mas o Delphi gerou alguns para facilitar o entendimento 
+  de como podemos implementar m&eacute;todos e interfaces.<br>
+  Repare na unit abaixo que as linhas em laranja n&atilde;o ser&atilde;o utilizadas, 
+  ou seja, a classe e os 4 m&eacute;todos de exemplo iremos apag&aacute;-los da 
+  unit.<br>
+  N&oacute;s n&atilde;o vamos precisar destes m&eacute;todos e nem da classe gerada. 
+  O mais importante e, esta sim iremos utilizar, &eacute; a interface IVerificaCPF 
+  definida pelas linhas na cor azul. Vamos apagar o que n&atilde;o interessa da 
+  unit (que est&aacute; marcado na cor laranja) e incluir o nosso m&eacute;todo 
+  que ser&aacute;:</font></p>
+<p align="left"><font face="Verdana, Arial, Helvetica, sans-serif"><font size="2">function 
+  VerificaCPF(cpf: string): Boolean; stdcall;<br>
+  <br>
+  No quadro abaixo(amarelo) mostramos a unit que o delphi gerou. No quadro abaixo(verde) 
+  mostramos como ficou a unit ap&oacute;s altera&ccedil;&atilde;o.</font></font></p>
+<table width="100%" border="1">
+  <tr>
+    <td width="55%" bgcolor="#FFFF00"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">unit 
+      VerificaCPFIntf; Invokable Interface(antes)</font></td>
+    <td width="45%" bgcolor="#00FF33"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">unit 
+      VerificaCPFIntf; Invokable Interface(depois)</font></td>
+  </tr>
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">{ Invokable 
+      interface IVerificaCPF } </font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      <p><font size="2">unit VerificaCPFIntf;</font></p>
+      <p><font size="2">interface</font></p>
+      <p><font size="2">uses InvokeRegistry, Types, XSBuiltIns;</font></p>
+      <p><font size="2">type</font></p>
+      <p><font size="2"> <font color="#FF6600">TEnumTest = (etNone, etAFew, etSome, 
+        etAlot);</font></font></p>
+      <p><font color="#FF6600" size="2"> TDoubleArray = array of Double;</font></p>
+      <p><font color="#FF6600" size="2"> TMyEmployee = class(TRemotable)<br>
+        private<br>
+        FLastName: AnsiString;<br>
+        FFirstName: AnsiString;<br>
+        FSalary: Double;<br>
+        published<br>
+        property LastName: AnsiString read FLastName write FLastName;<br>
+        property FirstName: AnsiString read FFirstName write FFirstName;<br>
+        property Salary: Double read FSalary write FSalary;<br>
+        end;</font></p>
+      <p><font color="#0000FF" size="2">{ Invokable interfaces must derive from 
+        IInvokable }<br>
+        IVerificaCPF = interface(IInvokable)<br>
+        ['{9D45D878-1FCA-4AD4-8586-AA50C09E1DC3}']</font></p>
+      <p><font size="2"> { Methods of Invokable interface must not use the default 
+        }<br>
+        { calling convention; stdcall is recommended }<br>
+        <font color="#FF6600">function echoEnum(const Value: TEnumTest): TEnumTest; 
+        stdcall;<br>
+        function echoDoubleArray(const Value: TDoubleArray): TDoubleArray; stdcall;<br>
+        function echoMyEmployee(const Value: TMyEmployee): TMyEmployee; stdcall;<br>
+        function echoDouble(const Value: Double): Double; stdcall;</font><br>
+        end;</font></p>
+      <p><font size="2">implementation</font></p>
+      <p><font size="2">initialization<br>
+        { Invokable interfaces must be registered }<br>
+        InvRegistry.RegisterInterface(TypeInfo(IVerificaCPF));</font></p>
+      </font> <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">end.<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"></font></p></td>
+    <td valign="top">
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">{ Invokable interface 
+        IVerificaCPF }</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">unit VerificaCPFIntf;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">interface</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">uses InvokeRegistry, 
+        Types, XSBuiltIns;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">type</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+        { Invokable interfaces must derive from IInvokable }<br>
+        IVerificaCPF = interface(IInvokable)<br>
+        ['{9D45D878-1FCA-4AD4-8586-AA50C09E1DC3}']</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> { Methods 
+        of Invokable interface must not use the default }<br>
+        { calling convention; stdcall is recommended }</font></p>
+      <p><font color="#0000FF" size="2" face="Verdana, Arial, Helvetica, sans-serif"> function 
+        VerificaCPF(cpf: string): Boolean; stdcall;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> end;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">implementation</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">initialization<br>
+        { Invokable interfaces must be registered }<br>
+        InvRegistry.RegisterInterface(TypeInfo(IVerificaCPF));</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">end.<br>
+        </font></p>
+      <p>&nbsp; </p></td>
+  </tr>
+</table>
+<p><br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Vamos fazer a mesma 
+  coisa na unit implementation abaixo. Vamos retirar os m&eacute;todos que n&atilde;o 
+  precisamos e que foram gerados como exemplo pelo delphi e incluirmos o nosso 
+  m&eacute;todo. As linhas laranjas foram retiradas e as linhas azuis foram inseridas. 
+  Desta forma nossa unit implementation possui apenas um m&eacute;todo <strong>VerificaCPF</strong> 
+  que recebe uma string e devolve um boolean.</font></p>
+<table width="100%" border="1">
+  <tr>
+    <td width="54%" bgcolor="#FFFF00"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">unit 
+      VerificaCPFImpl; Invokable implementation(antes)</font></td>
+    <td width="46%" bgcolor="#00FF33"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">unit 
+      VerificaCPFImpl; Invokable implementation(depois)</font></td>
+  </tr>
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">{ Invokable 
+      implementation File for TVerificaCPF which implements IVerificaCPF } </font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      <p><font size="2">unit VerificaCPFImpl;</font></p>
+      <p><font size="2">interface</font></p>
+      <p><font size="2">uses InvokeRegistry, Types, XSBuiltIns, VerificaCPFIntf;</font></p>
+      <p><font size="2">type</font></p>
+      <p><font size="2"> { TVerificaCPF }<br>
+        TVerificaCPF = class(TInvokableClass, IVerificaCPF)<br>
+        public<br>
+        <font color="#FF6600">function echoEnum(const Value: TEnumTest): TEnumTest; 
+        stdcall;<br>
+        function echoDoubleArray(const Value: TDoubleArray): TDoubleArray; stdcall;<br>
+        function echoMyEmployee(const Value: TMyEmployee): TMyEmployee; stdcall;<br>
+        function echoDouble(const Value: Double): Double; stdcall;</font><br>
+        end;</font></p>
+      <p><font size="2">implementation</font></p>
+      <p><font color="#FF6600" size="2">function TVerificaCPF.echoEnum(const Value: 
+        TEnumTest): TEnumTest; stdcall;<br>
+        begin<br>
+        { TODO : Implement method echoEnum }<br>
+        Result := Value;<br>
+        end;</font></p>
+      <p><font color="#FF6600" size="2">function TVerificaCPF.echoDoubleArray(const 
+        Value: TDoubleArray): TDoubleArray; stdcall;<br>
+        begin<br>
+        { TODO : Implement method echoDoubleArray }<br>
+        Result := Value;<br>
+        end;</font></p>
+      <p><font color="#FF6600" size="2">function TVerificaCPF.echoMyEmployee(const 
+        Value: TMyEmployee): TMyEmployee; stdcall;<br>
+        begin<br>
+        { TODO : Implement method echoMyEmployee }<br>
+        Result := TMyEmployee.Create;<br>
+        end;</font></p>
+      <p><font color="#FF6600" size="2">function TVerificaCPF.echoDouble(const 
+        Value: Double): Double; stdcall;<br>
+        begin<br>
+        { TODO : Implement method echoDouble }<br>
+        Result := Value;<br>
+        end;</font></p>
+      <p><font size="2">initialization<br>
+        { Invokable classes must be registered }<br>
+        InvRegistry.RegisterInvokableClass(TVerificaCPF);</font></p>
+      </font> <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">end.<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"></font></p></td>
+    <td><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">{ Invokable 
+        implementation File for TVerificaCPF which implements IVerificaCPF }</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">unit VerificaCPFImpl;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">interface</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">uses InvokeRegistry, 
+        Types, XSBuiltIns, VerificaCPFIntf;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">type</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> { TVerificaCPF 
+        }<br>
+        TVerificaCPF = class(TInvokableClass, IVerificaCPF)<br>
+        public<br>
+        <font color="#0000FF">function VerificaCPF(cpf: string): Boolean; stdcall;</font><br>
+        end;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">implementation</font></p>
+      <p><font color="#0000FF" size="2" face="Verdana, Arial, Helvetica, sans-serif">function 
+        TVerificaCPF.VerificaCPF(cpf: string): Boolean; stdcall;<br>
+        var<br>
+        soma, dg1, dg2 : integer;<br>
+        begin<br>
+        if length(cpf)&lt;&gt;11 then<br>
+        begin<br>
+        Verificacpf:=false;<br>
+        exit;<br>
+        end;<br>
+        soma:=0;<br>
+        inc(soma,(ord(cpf[1])-$30)*10);<br>
+        inc(soma,(ord(cpf[2])-$30)*9);<br>
+        inc(soma,(ord(cpf[3])-$30)*8);<br>
+        inc(soma,(ord(cpf[4])-$30)*7);<br>
+        inc(soma,(ord(cpf[5])-$30)*6);<br>
+        inc(soma,(ord(cpf[6])-$30)*5);<br>
+        inc(soma,(ord(cpf[7])-$30)*4);<br>
+        inc(soma,(ord(cpf[8])-$30)*3);<br>
+        inc(soma,(ord(cpf[9])-$30)*2);<br>
+        dg1:=11-(soma mod 11);<br>
+        if dg1&gt;=10 then dg1:=0;<br>
+        soma:=0;<br>
+        inc(soma,(ord(cpf[1])-$30)*11);<br>
+        inc(soma,(ord(cpf[2])-$30)*10);<br>
+        inc(soma,(ord(cpf[3])-$30)*9);<br>
+        inc(soma,(ord(cpf[4])-$30)*8);<br>
+        inc(soma,(ord(cpf[5])-$30)*7);<br>
+        inc(soma,(ord(cpf[6])-$30)*6);<br>
+        inc(soma,(ord(cpf[7])-$30)*5);<br>
+        inc(soma,(ord(cpf[8])-$30)*4);<br>
+        inc(soma,(ord(cpf[9])-$30)*3);<br>
+        inc(soma,(2*dg1));<br>
+        dg2:=11-(soma mod 11);<br>
+        if dg2&gt;=10 then dg2:=0;<br>
+        Verificacpf:=(cpf[10]=chr(dg1+$30)) and (cpf[11]=chr(dg2+$30));<br>
+        end;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">initialization<br>
+        { Invokable classes must be registered }<br>
+        InvRegistry.RegisterInvokableClass(TVerificaCPF);</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">end.<br>
+        </font></p>
+      <p>&nbsp; </p></td>
+  </tr>
+</table>
+<p align="left">&nbsp;</p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Vamos 
+  salvar o nosso projeto novamente com as respectivas altera&ccedil;&otilde;es 
+  nas units de Interface e Implementation. Depois de salvar o projeto VerificaCPF.dpr 
+  d&ecirc; um Build nele selecionando Project&gt;Build VerificaCPF.<br>
+  <br>
+  Na pasta C:\MeuWebServices\Server voc&ecirc; encontrar&aacute; nossa DLL que 
+  agora tem o nome VerificaCPF.dll.</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Para 
+  sabermos se deu tudo certo vamos verificar se o seu navegador mostra as especifica&ccedil;&otilde;es 
+  do nosso webservice. Inicie uma inst&acirc;ncia do seu navegador com o endere&ccedil;o:</font></p>
+<p align="left"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">http://127.0.0.1/MeuWebService/VerificaCPF.dll</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Vamos 
+  entender o que especificamos no nosso endere&ccedil;o: <br>
+  <br>
+  O <strong>IP</strong> 127.0.0.1 &eacute; o endere&ccedil;o do localhost, ou 
+  seja, &eacute; o ender&ccedil;o do servidor web da nossa m&aacute;quina local.<br>
+  O <strong>MeuWebService</strong> &eacute; o nome da pasta virtual que criamos 
+  no IIS.<br>
+  O <strong>VerificaCPF.dll</strong> &eacute; o nosso webservice que acabamos 
+  de desenvolver<br>
+  <br>
+  Se tudo foi feito como descrevemos at&eacute; agora o seu navegador dever&aacute; 
+  mostrar a seguinte tela:<br>
+  <br>
+  <img src="imagens/IE01.gif" width="1024" height="744"> </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Repare 
+  na tela acima que o navegador est&aacute; mostrando a nossa interface<strong> 
+  IVerificaCPF</strong> e o nosso m&eacute;todo <strong>VerificaCPF. </strong>Se 
+  clicarmos no link <strong>[WSDL]</strong> exibido no nosso navegador ao lado 
+  da nossa Interface <strong>IVerificaCPF</strong> o navegador mudar&aacute; para 
+  o endere&ccedil;o <strong>http://127.0.0.1/MeuWebService/VerificaCPF.dll/wsdl/IVerificaCPF</strong> 
+  mostrando em XML como nossa Interface e m&eacute;todo est&atilde;o definidos. 
+  Guarde bem este endere&ccedil;o pois iremos precisar dele logo mais no desenvolvimento 
+  do programa consumidor(cliente) do webservice.</font></p>
+<p align="left">&nbsp;</p>
+<p align="left"><img src="imagens/IE02.gif" width="1024" height="744"></p>
+<p align="left">&nbsp;</p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">O 
+  que n&oacute;s fizemos at&eacute; aqui foi incluir o nosso m&eacute;todo nas 
+  units de interface e implementation e geramos a dll do nosso webservice. Foram 
+  muitas coisas para ver e poucas para fazer.<br>
+  <br>
+  Nossa pr&oacute;xima etapa ser&aacute; a inclus&atilde;o no nosso webservice 
+  de um SOAP Server DataModule para disponibilizarmos servi&ccedil;os de acesso 
+  ao nosso banco de dados de inscri&ccedil;&atilde;o no concurso (concurso.mdb 
+  que est&aacute; em c:\MeuWebServices\Dados).</font></p>
+<p align="left">&nbsp;</p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>5.Incluindo 
+  um DataModule no nosso Webservices</strong></font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">O desenvolvimento 
+  de um webservice, como vimos at&eacute; aqui &eacute; muito simples e r&aacute;pido, 
+  vamos ver agora como a inclus&atilde;o de um DataModule, para acesso ao nosso 
+  banco de dados tamb&eacute;m &eacute; extremamente simples.</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">No 
+  delphi, com o projeto VerificaCPF.dpr aberto, selecione <font color="#660000">File&gt;New&gt;Other</font> 
+  e clique na aba webservices selecionando SOAP Server Data Module, conforme figura 
+  abaixo. Clique no bot&atilde;o Ok. <br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/DM01.gif" width="443" height="365"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  <br>
+  </font></p>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">O 
+  delphi solicitar&aacute; o nome da interface do datamodule. Digite &quot;DMDados&quot; 
+  (sem aspas) e clique no bot&atilde;o Ok.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/DM02.gif" width="377" height="146"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> O 
+  delphi gerou uma unit com uma classe TDMDados e uma Interface IDMDados. </font></p>
+<table width="100%" border="1">
+  <tr>
+    <td>Unit Unit1 (Interface do nosso DataModule)</td>
+  </tr>
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Unit Unit1; 
+      </font><font face="Verdana, Arial, Helvetica, sans-serif">
+      <p><font size="2">interface</font></p>
+      <p><font size="2">uses SysUtils, Classes, InvokeRegistry, Midas, SOAPMidas, 
+        SOAPDm;</font></p>
+      <p><font size="2">type<br>
+        IDMdados = interface(IAppServerSOAP)<br>
+        ['{39EAB064-825E-4C67-802E-5F547D9E3775}']<br>
+        end;</font></p>
+      <p><font size="2"> TDMdados = class(TSoapDataModule, IDMdados, IAppServerSOAP, 
+        IAppServer)<br>
+        private</font></p>
+      <p><font size="2"> public</font></p>
+      <p><font size="2"> end;</font></p>
+      <p><font size="2">implementation</font></p>
+      <p><font size="2">{$R *.DFM}</font></p>
+      <p><font size="2">procedure TDMdadosCreateInstance(out obj: TObject);<br>
+        begin<br>
+        obj := TDMdados.Create(nil);<br>
+        end;</font></p>
+      </font> <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">initialization<br>
+        InvRegistry.RegisterInvokableClass(TDMdados, TDMdadosCreateInstance);<br>
+        InvRegistry.RegisterInterface(TypeInfo(IDMdados));<br>
+        end.<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"> </font> </p></td>
+  </tr>
+</table>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Vamos gravar esta 
+  unit com o nome &quot;UDMDados.pas&quot;.<br>
+  <br>
+  Vamos utilizar o componente ADOConnection pois nossa base de dados &eacute; 
+  o MS-Access 2000. Arraste este componente para o nosso datamodule.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/ado01.gif" width="322" height="267"></font></div></td>
+  </tr>
+</table>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> </font></p>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  <br>
+  D&ecirc; um duplo-clique no componente ADOConnection para informar a propriedade 
+  ConnectionString. Clique no bot&atilde;o Build, como na figura abaixo.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/ado02.gif" width="478" height="210"></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  </font></p>
+<p align="left"><br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Selecione Microsoft 
+  Jet 4.0 OLE DB Provider que &eacute; o mecanismo de acesso para o MS-ACCESS 
+  200, conforme figura abaixo e click no bot&atilde;o Avan&ccedil;ar.</font><br>
+</p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/ado03.gif" width="367" height="460"></div></td>
+  </tr>
+</table>
+<p align="left"> <br>
+  <br>
+  <br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Indique na aba Conex&atilde;o, 
+  conforme figura abaixo, o caminho do nosso banco de dados que est&aacute; em 
+  C:\MeuWebService\Dados\concurso.mdb e clique no bot&atilde;o OK.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/ado04.gif" width="367" height="460"></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> </font> 
+  <br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Altere a propriedade 
+  LoginPrompt do componente ADOConnection1 para False. Agora temos o componente 
+  ADOConnection1 devidamente coonfigurado. Precisamos incluir no nosso DataModule 
+  (DMDados) o componente ADODataset que ser&aacute; o respons&aacute;vel pela 
+  leitura da nossa tabela &quot;CadInsc&quot;. Arraste este componente para o 
+  nosso DataModule. Na propriedade Connection do componente ADODataSet1 aponte 
+  para ADOConnection1.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/ado05.gif" width="322" height="267"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  Na propiedade CommandText do componente ADODataSet clique no bot&atilde;o para 
+  obter o CommandText Editor, conforme figura abaixo. Escreva os comandos SQL: 
+  &quot;Select * from CadInsc where CPF = :@CPF&quot; (sem aspas). Repare que 
+  estas instru&ccedil;&otilde;es dizem ao SQL para buscar na tabela CADInsc todos 
+  os campos do registro cujo campo CPF for igual ao par&acirc;metro :@CPF que 
+  iremos informar pelo nosso programa Cliente que ainda n&atilde;o desenvolvemos. 
+  Clique no bot&atilde;o OK.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/ado06.gif" width="532" height="350"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  <br>
+  <br>
+  </font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Para complementar 
+  nosso DataModule precisamos arrastar o componente DataSetProvider que ser&aacute; 
+  o provedor das solicita&ccedil;&otilde;es do programa cliente. Na propriedade 
+  DataSet do componente DataSetProvider1 selecione ADODataSet1 que &eacute; a 
+  nossa query. <br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/ado07.gif" width="322" height="267"></div></td>
+  </tr>
+</table>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> </font></p>
+<p align="center">&nbsp;</p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Finalmente o nosso 
+  webservice est&aacute; pronto. Vamos compil&aacute;-lo (Build) , salv&aacute;-lo 
+  e fech&aacute;-lo.</font></p>
+<p>&nbsp;</p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>6.Construindo 
+  o consumidor(Cliente) do nosso WebServices.</strong></font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Crie uma nova aplica&ccedil;&atilde;o 
+  no delphi clicando em <font color="#660000">File&gt;New&gt;Application</font>. 
+  Na aba de componentes selecione WebServices e arraste para o form os componentes 
+  HTTPRio e SOAPConnection. O HTTPRIO &eacute; para termos acesso ao nosso m&eacute;todo 
+  VerificaCPF e o SOAPConnection para acessarmos o nosso DataModule. Ambos v&atilde;o 
+  precisar do endere&ccedil;o onde nosso webservice reside. No HTTPRIO este endere&ccedil;o 
+  &eacute; configurado na propriedade WSDLLocation e no SOAPConnection na propriedade 
+  URL.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Lembre-se que o 
+  nosso webservice (VerificaCPF.dll) possui os m&eacute;todos e as interfaces 
+  armazenados em XML, vamos pensar assim para melhor entendimento. Faz de conta 
+  que todas as defini&ccedil;&otilde;es do nosso webservice est&atilde;o armazenadas 
+  em um arquivo chamado WSDL. Quando chamamos o webservice ele acessa este arquivo 
+  e nos mostra como acessar todos os servi&ccedil;os por ele prestados. Imagine 
+  um config.ini. Neste arquivo encontramos informa&ccedil;&otilde;es sobre os 
+  m&eacute;todos, interfaces, campos, portas de servi&ccedil;os e etc... tudo 
+  em XML. Este novo padr&atilde;o permite que qualquer programa de qualquer linguagem 
+  e plataforma ,que opere com o protocolo SOAP, possa acessar os servi&ccedil;os 
+  do nosso webservice. Caso voc&ecirc; queira disponibilizar o seu webservice 
+  para o mundo, d&ecirc; uma olhada em <a href="http://www.xmethods.com/" target="_blank">Xmethods</a> 
+  onde voc&ecirc; ir&aacute; encontrar uma enorme quantidade de webservices prontos 
+  para serem acessados pelo Delphi ou outras linguagens. Registre seu webservice 
+  neste site e o mundo poder&aacute; acess&aacute;-lo. Gra&ccedil;as ao <a href="http://www.w3.org/TR/wsdl" target="_blank">WSDL-Web 
+  Services Description Language</a> (Linguagem de Defini&ccedil;&atilde;o dos 
+  Servi&ccedil;os Web).</font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Voltando 
+  ao nosso modelo o nosso Form do programa Cliente ficar&aacute; como na figura 
+  abaixo.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/form01.gif" width="696" height="480"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  </font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">O Delphi tem um 
+  importador de WSDL, facilitando muito nossa vida. Vamos importar o nosso WSDL 
+  para voc&ecirc;s entenderem o processo.<br>
+  No delphi selecione <font color="#660000">File&gt;New&gt;Other</font> e selecione 
+  a aba webservices conforme figura abaixo.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/wsdl.gif" width="443" height="365"></font></div></td>
+  </tr>
+</table>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  <br>
+  Selecione WSDL Importer e clique no bot&atilde;o OK. Na tela abaixo O WSDL Import 
+  Wizard solicita o endere&ccedil;o do nosso webservice e a especifica&ccedil;&atilde;o 
+  da nossa interface. O endere&ccedil;o http://127.0.0.1/MeuWebService/VerificaCPF.dll/wsdl/IVerificaCPF 
+  indica ao Wizard como acessar o nosso WSDL.<br>
+  <br>
+  O <strong>IP</strong> 127.0.0.1 indica que o nosso Servidor WEB &eacute; o Localhost.<br>
+  O <strong>MeuWebService</strong> indica nossa pasta virtual criada no IIS.<br>
+  O <strong>VerificaCPF.dll</strong> &eacute; o nosso webservice.<br>
+  O <strong>wsdl</strong> indica o que estamos especificando para o Wizard buscar.<br>
+  O <strong>IVerificaCPF</strong> &eacute; o nome da interface do nossos servi&ccedil;os.<br>
+  <br>
+  Clique no bot&atilde;o Next para o Wizard pegar nosso WSDL em XML e transform&aacute;-lo 
+  em uma unit.</font><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  <br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/wsdl02.gif" width="823" height="525"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  A unit gerada pelo Delphi(WSDL Import Wizard) aparece na aba Code Preview, conforme 
+  figura abaixo. Repare que o Wizard nos mostra a Interface IVerificaCPF e o m&eacute;todo 
+  VerificaCPF. Como o Delphi gerou esta unit n&oacute;s devemos mecion&aacute;-la 
+  na clausula USES do nosso programa Cliente.<br>
+  Clique no bot&atilde;o Finish para obter a unit gerada pelo Delphi. <br>
+  <br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/wsdl03.gif" width="845" height="571"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  <br>
+  <br>
+  </font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Salve esta unit 
+  com o nome <strong>IVerificaCPF1</strong>.<br>
+  <br>
+  <strong>IMPORTANTE: Na Cl&aacute;usula USES da unit do nosso form digite IVerificaCPF1</strong> 
+  </font></p>
+<table width="100%" border="1">
+  <tr>
+    <td bgcolor="#FFFF00">Unit gerada pelo Delphi via nosso WSDL</td>
+  </tr>
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">// ************************************************************************ 
+      //<br>
+      // The types declared in this file were generated from data read from the<br>
+      // WSDL File described below:<br>
+      // WSDL : http://127.0.0.1/MeuWebService/VerificaCPF.dll/wsdl/IVerificaCPF<br>
+      // Encoding : utf-8<br>
+      // Version : 1.0<br>
+      // (20/06/2004 11:09:24 - 1.33.2.5)<br>
+      // ************************************************************************ 
+      // </font><font face="Verdana, Arial, Helvetica, sans-serif">
+      <p><font size="2">unit IVerificaCPF1;</font></p>
+      <p><font size="2">interface</font></p>
+      <p><font size="2">uses InvokeRegistry, SOAPHTTPClient, Types, XSBuiltIns;</font></p>
+      <p><font size="2">type</font></p>
+      <p><font size="2"> // ************************************************************************ 
+        //<br>
+        // The following types, referred to in the WSDL document are not being 
+        represented<br>
+        // in this file. They are either aliases[@] of other types represented 
+        or were referred<br>
+        // to but never[!] declared in the document. The types from the latter 
+        category<br>
+        // typically map to predefined/known XML or Borland types; however, they 
+        could also<br>
+        // indicate incorrect WSDL documents that failed to declare or import 
+        a schema type.<br>
+        // ************************************************************************ 
+        //<br>
+        // !:string - &quot;http://www.w3.org/2001/XMLSchema&quot;<br>
+        // !:boolean - &quot;http://www.w3.org/2001/XMLSchema&quot;</font></p>
+      <p><font size="2"><br>
+        // ************************************************************************ 
+        //<br>
+        // Namespace : urn:VerificaCPFIntf-IVerificaCPF<br>
+        // soapAction: urn:VerificaCPFIntf-IVerificaCPF#VerificaCPF<br>
+        // transport : http://schemas.xmlsoap.org/soap/http<br>
+        // style : rpc<br>
+        // binding : IVerificaCPFbinding<br>
+        // service : IVerificaCPFservice<br>
+        // port : IVerificaCPFPort<br>
+        // URL : http://127.0.0.1/MeuWebService/VerificaCPF.dll/soap/IVerificaCPF<br>
+        // ************************************************************************ 
+        //<br>
+        IVerificaCPF = interface(IInvokable)<br>
+        ['{98035805-7F8D-B23C-DD4B-8571892C44D9}']<br>
+        function VerificaCPF(const cpf: WideString): Boolean; stdcall;<br>
+        end;</font></p>
+      <p><font size="2">function GetIVerificaCPF(UseWSDL: Boolean=System.False; 
+        Addr: string=''; HTTPRIO: THTTPRIO = nil): IVerificaCPF;</font></p>
+      <p><font size="2"><br>
+        implementation</font></p>
+      <p><font size="2">function GetIVerificaCPF(UseWSDL: Boolean; Addr: string; 
+        HTTPRIO: THTTPRIO): IVerificaCPF;<br>
+        const<br>
+        defWSDL = 'http://127.0.0.1/MeuWebService/VerificaCPF.dll/wsdl/IVerificaCPF';<br>
+        defURL = 'http://127.0.0.1/MeuWebService/VerificaCPF.dll/soap/IVerificaCPF';<br>
+        defSvc = 'IVerificaCPFservice';<br>
+        defPrt = 'IVerificaCPFPort';<br>
+        var<br>
+        RIO: THTTPRIO;<br>
+        begin<br>
+        Result := nil;<br>
+        if (Addr = '') then<br>
+        begin<br>
+        if UseWSDL then<br>
+        Addr := defWSDL<br>
+        else<br>
+        Addr := defURL;<br>
+        end;<br>
+        if HTTPRIO = nil then<br>
+        RIO := THTTPRIO.Create(nil)<br>
+        else<br>
+        RIO := HTTPRIO;<br>
+        try<br>
+        Result := (RIO as IVerificaCPF);<br>
+        if UseWSDL then<br>
+        begin<br>
+        RIO.WSDLLocation := Addr;<br>
+        RIO.Service := defSvc;<br>
+        RIO.Port := defPrt;<br>
+        end else<br>
+        RIO.URL := Addr;<br>
+        finally<br>
+        if (Result = nil) and (HTTPRIO = nil) then<br>
+        RIO.Free;<br>
+        end;<br>
+        end;</font></p>
+      <p><font size="2"><br>
+        initialization<br>
+        InvRegistry.RegisterInterface(TypeInfo(IVerificaCPF), 'urn:VerificaCPFIntf-IVerificaCPF', 
+        'utf-8');<br>
+        InvRegistry.RegisterDefaultSOAPAction(TypeInfo(IVerificaCPF), 'urn:VerificaCPFIntf-IVerificaCPF#VerificaCPF');</font></p>
+      </font> <p></p></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  <strong>IMPORTANTE: Na Cl&aacute;usula USES da unit do nosso form digite IVerificaCPF1</strong><br>
+  <br>
+  Repare bem na unit acima. Em primeiro lugar o nome da unit &eacute; o mesmo 
+  nome da nossa interface IVerificaCPF1.pas, verificamos que foi criada uma fun&ccedil;&atilde;o 
+  GetIVerificaCPF que utiliza o HTTPRIO e retorna nossa interface IVerificaCPF. 
+  Como constantes desta nova fun&ccedil;&atilde;o temos a defini&ccedil;&atilde;o 
+  do endere&ccedil;o da localiza&ccedil;&atilde;o do WSDL, do URL para o SOAP, 
+  do servi&ccedil;o e da porta. Todas estas informa&ccedil;&otilde;es foram trazidas 
+  para o pascal atrav&eacute;s dos dados existentes no WSDL via XML.<br>
+  <br>
+  Nosso pr&oacute;ximo passo &eacute; indicar no componente HTTPRIO que arrastamos 
+  para o nosso form o endere&ccedil;o de localiza&ccedil;&atilde;o do nosso WSDL 
+  que foi o mesmo que digitamos para o Wizard ou seja: http://127.0.0.1/MeuWebService/VerificaCPF.dll/wsdl/IVerificaCPF<br>
+  <br>
+  Selecione o componente HTTPRIO1 do nosso form. Na propriedade WSDLLocation selecione 
+  o endere&ccedil;o que informamos para o Wizard e que deve estar na lista de 
+  endere&ccedil;os desta propriedade.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/rio01.gif" width="624" height="381"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  <br>
+  Na propridade Service selecione a interface do nosso servi&ccedil;o IVerificaCPFservice.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/rio02.gif" width="624" height="381"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  Na propriedade Port selecione a interface da porta do nosso servi&ccedil;o IVerificaCPFPort<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/rio03.gif" width="624" height="381"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  <br>
+  O nosso componente HTTPRIO1 j&aacute; est&aacute; configurado para acessar os 
+  servi&ccedil;os do nosso webservice.<br>
+  <br>
+  Para interagir com o componente afim de consumirmos o servi&ccedil;o VerificaCPF 
+  basta invocarmos o componente HTTPRIO e sua interface. O comando &eacute; simples. 
+  Arraste um bot&atilde;o para o nosso form e no evento OnClick digite as instru&ccedil;oes 
+  conforme figura abaixo, quando digitamos o ponto o delphi imediatamente nos 
+  mostra o nosso m&eacute;todo (VerificaCPF) criado no nosso webservice.<br>
+  </font></p>
+<table width="100%" border="1">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/rio04.gif" width="960" height="485"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  </font></p>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  <br>
+  <br>
+  Insira um componente Tedit no nosso form. E complete a chamada para o nosso 
+  m&eacute;todo com as intru&ccedil;&otilde;es, no evento Onclick do nosso bot&atilde;o, 
+  conforme figura abaixo.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/rio05.gif" width="960" height="485"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  O nosso form dever&aacute; estar como mostra a figura abaixo;<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/form05.gif" width="370" height="381"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Salve 
+  o projeto com o nome de TestaCPF.dpr, a unit do form como UtestaCPF e a unit 
+  gerada pelo Wizard como IVerificaCPF1(caso voc&ecirc; ainda n&atilde;o tenha 
+  feito). Compile e execute o projeto. Insira no EditBox um CPF v&aacute;lido 
+  e clique no bot&atilde;o para ver acionado o nosso webservice. Insira tamb&eacute;m 
+  um CPF inv&aacute;lido para ver o nosso webservice em a&ccedil;&atilde;o.<br>
+  <br>
+  At&eacute; aqui, contru&iacute;mos o nosso webservice e o nosso cliente apenas 
+  para acessar o m&eacute;todo que verifica o CPF. Nosso projeto na realidade 
+  necessita deste m&eacute;todo para verificar o CPF do candidato ao concurso 
+  e tamb&eacute;m das outras informa&ccedil;&otilde;es requisitadas pelo nosso 
+  modelo.<br>
+  Vamos agora construir no Cliente nossos m&eacute;todos para acessar o banco 
+  de dados.<br>
+  <br>
+  Em primeiro lugar devemos informar na propriedade URL do componente SOAPConnection 
+  o endere&ccedil;o onde a interface do DataModule do nosso servidor reside. Neste 
+  caso estar&aacute; em: http://127.0.0.1/MeuWebService/VerificaCPF.dll/soap/IDMdados. 
+  Clique no componente SOAPConnection1 e informe na propriedade URL o endere&ccedil;o 
+  http://127.0.0.1/MeuWebService/VerificaCPF.dll/soap/IDMdados. Vide figura abaixo. 
+  Repare que neste endere&ccedil;o depois do VerificaCPF.dll digitamos a palavra 
+  SOAP e a seguir o nome da interface do nosso DataModule que &eacute; IDMdados.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/soap01.gif" width="624" height="381"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  Altere a propriedade Connected para True. <br>
+  <br>
+  Esta &eacute; a parte que eu mais gosto e a mais produtiva para n&oacute;s desenvolvedores. 
+  Trata-se da inclus&atilde;o no nosso form de um componente extremamente poderoso 
+  o ClienteDataset. Este componente &eacute; muito vers&aacute;til e reduz em 
+  muito o nosso trabalho. N&atilde;o &eacute; nossa inten&ccedil;&atilde;o aqui 
+  descrever todas as propriedades e m&eacute;todos deste componente. Se voc&ecirc; 
+  quiser se aprofundar recomendo o link <a href="http://community.borland.com/article/0,1410,22571,00.html">http://community.borland.com/article/0,1410,22571,00.html</a> 
+  dentre outros. Toda vez que voc&ecirc; usar este componente, TclientDataSet, 
+  voc&ecirc; deve incluir na cl&aacute;usula Uses a unit MidasLib (para o Delphi 
+  7) ou utilizar o arquivo midas.dll registrando-o atrav&eacute;s do programa 
+  REGSVR32.EXE que est&aacute; na pasta do sistema do Windows.<br>
+  Voc&ecirc; deve utiliz&aacute;-lo no programa Cliente e no programa Servidor.<br>
+  </font><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  O ClientDataSet possui duas propriedades que s&atilde;o utilizadas para conex&atilde;o 
+  com o servidor remoto e a indica&ccedil;&atilde;o do provider. No nosso webservice 
+  a conex&atilde;o ser&aacute; efetuada via o componente SOAPConnection1 e o provider 
+  ser&aacute; o nome do DatasetProvider que inserimos no nosso DataModule l&aacute; 
+  no nosso webservice que &eacute; DataSetProvider1. Arraste um componente TclientDataSet 
+  para o nosso form e informe na propriedade RemoteServer o componente SOAPConnection1 
+  conforme figura abaixo.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/soap02.gif" width="624" height="381"></font></div></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> <br>
+  Selecione na lista da propriedade ProviderName do componente ClientDataSet1 
+  o nosso pronvider que &eacute; o DatasetProvider1. Importante: Se a lista desta 
+  propriedade estiver vazia o componente SOAPConnection1 n&atilde;o est&aacute; 
+  conectado ou a propriedade URL est&aacute; com algum erro. Para testar o endere&ccedil;o 
+  inserido nesta propriedade inicie uma inst&acirc;ncia do seu navegador e digite 
+  o mesmo endere&ccedil;o que est&aacute; na propriedade URL do componente SOAPConnection1. 
+  Se n&atilde;o aparecer o XML como o da figura abaixo<br>
+  </font></p>
+<table width="100%" border="1">
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/dm99.gif" width="964" height="353"></font></td>
+  </tr>
+</table>
+<p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  <br>
+  h&aacute; um problema com o seu webservice ou com o seu IIS. Uma outra hip&oacute;tese, 
+  da qual apanhei muito para descobrir, &eacute; que, n&atilde;o sei ainda a raz&atilde;o, 
+  o webservice com ADO, na propriedade ConnectionString n&atilde;o aceita unidades 
+  l&oacute;gicas (quer dizer aceita mas n&atilde;o funciona). Desta forma se a 
+  propriedade ConnectionString do componente ADOConnection1 do seu DataModule 
+  estiver apontando para unidades l&oacute;gicas o provider n&atilde;o aparecer&aacute;. 
+  Para solucionar este problema indique o caminho f&iacute;sico do seu banco de 
+  dados. Exemplo: Suponha que o seu banco de dados esteja em \\Computador01\C\Dados\ 
+  e voc&ecirc; mapeou este caminho para Z: n&atilde;o coloque no ConnectionStrig 
+  a unidade Z: e sim o caminho real que &eacute;, neste exemplo, \\Computador01\C\Dados\.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/cds01.gif" width="364" height="381"></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  </font></p>
+<p align="left"><br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">No componente ClientDataSet1 
+  informamos duas propriedades: O RemoteServer e o ProviderName.</font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Selecione 
+  o componente ClientDataSet1 e d&ecirc; um duplo-clique para invocarmos o editor 
+  de campos conforme figura abaixo. Clique com o bot&atilde;o direito do mouse 
+  sobre o editor e selecione Add all fields.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="imagens/cds02.gif" width="173" height="239"></font></div></td>
+  </tr>
+</table>
+<p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
+  <br>
+  <br>
+  </font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Como a nossa query 
+  no AdoDataset do nosso webservice tem par&acirc;metro devemos informar no ClienteDataset 
+  a exist&ecirc;ncia dele. Clique com o bot&atilde;o direito do mouse sobre o 
+  componente ClientDataSet1 e selecione a op&ccedil;&atilde;o &quot;Fetch Params&quot;, 
+  como mostra a figura abaixo. O ClientDataSet1 trar&aacute; para a sua propriedade 
+  &quot;Params&quot; todos os par&acirc;metros existentes na query. Neste caso 
+  trar&aacute; :@CPF.<br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/tela79.gif" width="501" height="533"></div></td>
+  </tr>
+</table>
+<p><br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Vamos agora incluir 
+  no form do nosso programa consumidor(cliente) de webservice todos os campos 
+  da nossa tabela para que o usu&aacute;rio possa inclu&iacute;-los e alter&aacute;-los.</font> 
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">No nosso modelo 
+  o usu&aacute;rio poder&aacute; incluir, alterar e excluir o seu registro via 
+  CPF. No modelo real h&aacute; uma senha para que a manuten&ccedil;&atilde;o 
+  seja autorizada por&eacute;m para o nosso exemplo n&atilde;o vamos utiliz&aacute;-la.</font> 
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">D&ecirc; um duplo-clique 
+  no componente ClientDataSet1 selecione todos os campos e arraste-os para o nosso 
+  form.</font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">Inclua 
+  tamb&eacute;m 2 bot&otilde;es um para atualiza&ccedil;&atilde;o e outro para 
+  exclus&atilde;o. Alinhe os campos e substitua o campo &quot;sexo&quot; pelo 
+  componente DBRadioGroup.</font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">O 
+  nosso form dever&aacute; estar parecido com o da figura abaixo.</font><br>
+</p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/tela80.gif" width="502" height="540"></div></td>
+  </tr>
+</table>
+<p align="left"><br>
+  <br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">J&aacute; fizemos 
+  o teste com a fun&ccedil;&atilde;o que verifica o CPF e agora vamos incluir 
+  os comandos para os bot&otilde;es &quot;Atualizar&quot; e &quot;Excluir&quot;. 
+  O usu&aacute;rio dever&aacute; informar o seu CPF no componente Edit1 e clicar 
+  no bot&atilde;o VerificaCPF. Se o CPF for v&aacute;lido o nosso programa dever&aacute; 
+  verificar se ele j&aacute; existe na tabela CadInsc do nosso banco de dados. 
+  Se j&aacute; existir vamos colocar o ClientDataset no modo de edi&ccedil;&atilde;o 
+  se n&atilde;o existir colocaremos no modo de inser&ccedil;&atilde;o. </font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">O c&oacute;digo 
+  para o bot&atilde;o VerificaCPF ficar&aacute; conforme abaixo:<br>
+  </font></p>
+<table width="100%" border="1">
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">procedure 
+      TForm1.BitBtn1Click(Sender: TObject); //Bot&atilde;o VerificaCPF<br>
+      begin </font><font face="Verdana, Arial, Helvetica, sans-serif">
+      <p><font size="2">If (HTTPRIO1 as IVerificaCPF).VerificaCPF(Edit1.text) 
+        then<br>
+        begin<br>
+        showmessage('CPF OK.');<br>
+        If verifica_se_existe(edit1.text) then Altera else Inclui;<br>
+        end<br>
+        else<br>
+        begin<br>
+        showmessage('CPF inv&aacute;lido.');<br>
+        end;</font></p>
+      <p><font size="2">end;</font></p>
+      </font></td>
+  </tr>
+</table>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Se o CPF for v&aacute;lido 
+  o c&oacute;digo chama a fun&ccedil;&atilde;o &quot;verifica_se_existe&quot;. 
+  Esta fun&ccedil;&atilde;o retornar&aacute; TRUE se o CPF esxistir na tabela 
+  CadInsc e FALSE se n&atilde;o existir. A fun&ccedil;&atilde;o foi codificada 
+  como mostramos abaixo. Se a fun&ccedil;&atilde;o retornar TRUE chamamos a procedure 
+  Altera, se for False, a Inclui.</font><br>
+  <br>
+</p>
+<table width="100%" border="1">
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Function TForm1.verifica_se_existe(cpf:string):boolean;<br>
+      begin<br>
+      // Fechamos o ClienteDataset para passarmos par&acirc;metros<br>
+      If ClientDataSet1.Active then ClientDataset1.active := false; </font><font face="Verdana, Arial, Helvetica, sans-serif">
+      <p><font size="2">//Passamos para o primeiro parametro da nossa query (Where 
+        cpf = :@CPF) a variavel CPF;<br>
+        ClientDataSet1.Params[0].asstring := cpf;</font></p>
+      <p><font size="2">//Executamos o clientdatset<br>
+        ClientDataset1.active := true;</font></p>
+      <p><font size="2">//Verificamos se existe algum registro atrav&eacute;s 
+        da propriedade recordcount<br>
+        If ClientDataset1.RecordCount &gt; 0 then Result := true else Result := 
+        false;<br>
+        end;</font></p>
+      </font></td>
+  </tr>
+</table>
+<br>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">A procedure Inclui e Altera, 
+conforme figura abaixo, muda o estado do ClientDataSet para Append ou Edit.</font><br>
+<table width="100%" border="1">
+  <tr>
+    <td><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">procedure 
+        TForm1.Inclui;<br>
+        begin<br>
+        ClientDataset1.Append;<br>
+        ClientDataset1CPF.asstring := edit1.Text;<br>
+        </font><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> end; 
+        </font></p>
+      <font face="Verdana, Arial, Helvetica, sans-serif"><p><font size="2">procedure TForm1.Altera;<br>
+        begin<br>
+        ClientDataset1.Edit;<br>
+        end;</font></p>
+      </font></td>
+  </tr>
+</table>
+<br>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">Quando o usu&aacute;rio 
+clicar no bot&atilde;o Atualizar n&oacute;s verificamos o status da nossa tabela. 
+Se estiver no modo de inser&ccedil;&atilde;o ou de edi&ccedil;&atilde;o o programa 
+invoca a procedure CRITICA. Nesta procedure verificamos a consist&ecirc;ncia dos 
+campos digitados manipulando a vari&aacute;vel ERRO para que o registro somente 
+possa ser gravado ap&oacute;s passar pela cr&iacute;tica. Se o registro estiver 
+em ordem chamamos o m&eacute;todo POST do ClientDataSet1 para que seja gravado 
+&quot;em mem&oacute;ria&quot;.<br>
+A seguir invocamos o m&eacute;todo ApplyUpdate que &eacute; o respons&aacute;vel 
+por enviar o DELTA (registros alterados) para o nosso provider. L&aacute; no webservice 
+o provider gera senten&ccedil;as SQL para efetuar a transa&ccedil;&atilde;o com 
+o nosso banco de dados.<br>
+</font><br>
+<table width="100%" border="1">
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">procedure 
+      TForm1.Button1Click(Sender: TObject); //Bot&atilde;o Atualizar<br>
+      begin </font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      <p><font size="2">If (ClientDataSet1.State = dsInsert) or<br>
+        (ClientDataSet1.State = dsEdit) then<br>
+        begin<br>
+        <br>
+        Critica;<br>
+        If erro then exit;<br>
+        Try<br>
+        ClientDataSet1.Post;<br>
+        ClientDataSet1.ApplyUpdates(0);<br>
+        except<br>
+        showmessage('Problema na conex&atilde;o. Tente mais tarde.');<br>
+        exit;<br>
+        end;</font></p>
+      <p><font size="2"> showmessage('Registro atualizado com sucesso.');</font></p>
+      </font> 
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">end;<br>
+        end;<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"> </font> </p></td>
+  </tr>
+</table>
+<br>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">Se o usu&aacute;rio 
+clicar no bot&atilde;o Excluir, nossa rotina verifica se a tabela est&aacute; 
+no modo edi&ccedil;&atilde;o. Se estiver solicita ao usu&aacute;rio que confirme 
+o procedimento de exclus&atilde;o do registro. Se o usu&aacute;rio confirmar nossa 
+rotina invocar&aacute; o m&eacute;todo Delete do ClientDataset e logo a seguir 
+chamar&aacute; o m&eacute;doto ApplyUpdate para sacramentar a opera&ccedil;&atilde;o. 
+</font><br>
+<br>
+<table width="100%" border="1">
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">procedure 
+      TForm1.Button2Click(Sender: TObject); //Bot&atilde;o Excluir<br>
+      begin<br>
+      If ClientDataset1.State = dsEdit then<br>
+      begin </font><font face="Verdana, Arial, Helvetica, sans-serif">
+      <p><font size="2"> if MessageDlg('Tem certeza que deseja excluir este registro?',<br>
+        mtConfirmation, [mbYes, mbNo], 0) = mrNo then<br>
+        begin<br>
+        exit;<br>
+        end;</font></p>
+      <p><font size="2"> try<br>
+        ClientDataset1.delete;<br>
+        ClientDataset1.ApplyUpdates(0);</font></p>
+      <p><font size="2"> except<br>
+        showmessage('Problema na comunica&ccedil;&atilde;o. Tente mais tarde.');<br>
+        exit;<br>
+        end;</font></p>
+      <p><font size="2"> showmessage('Registro exclu&iacute;do com sucesso.');</font></p>
+      </font> <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">end;<br>
+        end;<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif"> </font> </p></td>
+  </tr>
+</table>
+<br>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">A procedure Critica, 
+deste nosso exemplo, est&aacute; verificando apenas o campo Nome. Voc&ecirc; deve 
+complet&aacute;-la para os demais campos.</font><br>
+<br>
+<table width="100%" border="1">
+  <tr> 
+    <td><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">procedure TForm1.Critica;<br>
+        begin</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Erro := false;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If trim(dbedit2.EditText) 
+        = '' then<br>
+        begin<br>
+        showmessage('O nome n&atilde;o pode estar em branco.');<br>
+        erro := true;<br>
+        exit;<br>
+        end;</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+        //Insira aqui o resto da cr&iacute;tica dos campos</font><br>
+      </p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">end;</font><br>
+      </p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif"> </font> </p></td>
+  </tr>
+</table>
+<br>
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">Se voc&ecirc; reparar 
+nos eventos do componente ClientDataSet descobrir&aacute; que existe um evento 
+chamado &quot;OnReconcileError&quot;. Neste evento podemos invocar a fun&ccedil;&atilde;o 
+&quot;HandleReconcileError&quot; que j&aacute; est&aacute; prontinha para uso 
+no nosso ambiente de desenvolvimento. No Delphi clique em <font color="#660000">File&gt;New&gt;Other</font> 
+e selecione a aba Dialogs, como na figura abaixo. Selecione o objeto Reconcile 
+Error Dialog e clique no bot&atilde;o Ok.</font><br>
+<br>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/error00.gif" width="443" height="365"></div></td>
+  </tr>
+</table>
+<br>
+<p align="left"><br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">O Delphi trar&aacute; 
+  um form e uma unit, conforme figura abaixo, que poder&aacute; ser chamada quando 
+  o evento ONReconcileError for disparado. A tela est&aacute; em ingl&ecirc;s 
+  e fiz umas pequenas altera&ccedil;&otilde;es. N&atilde;o esque&ccedil;a de mencionar 
+  esta unit na clausula USES do form principal. O Objetivo desta tela &eacute; 
+  que o usu&aacute;rio interaja com as transa&ccedil;&otilde;es indicando a a&ccedil;&atilde;o 
+  a ser tomada em caso de erro no ApplyUpdate.</font><br>
+</p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/error.gif" width="584" height="338"></div></td>
+  </tr>
+</table>
+<p align="left"> <br>
+  <br>
+  <br>
+  <font size="2" face="Verdana, Arial, Helvetica, sans-serif">No evento OnReconcileError 
+  do componente ClientDataSet1 insire a linha de comando conforme figura abaixo.</font></p>
+<table width="100%" border="1">
+  <tr>
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">procedure 
+      TForm1.ClientDataSet1ReconcileError(<br>
+      DataSet: TCustomClientDataSet; E: EReconcileError;<br>
+      UpdateKind: TUpdateKind; var Action: TReconcileAction);<br>
+      begin </font><font face="Verdana, Arial, Helvetica, sans-serif">
+      <p><font size="2">Action:=HandleReconcileError(Dataset, UpdateKind, E);</font></p>
+      <p><font size="2"><br>
+        end;</font></p>
+      </font></td>
+  </tr>
+</table>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Salve todo o projeto, 
+  compile(build) e execute.<br>
+  <br>
+  </font></p>
+<table width="100%" border="0">
+  <tr>
+    <td><div align="center"><img src="imagens/teste.gif" width="510" height="532"></div></td>
+  </tr>
+</table>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Conclus&atilde;o: 
+  Nosso objetivo foi mostrar na pr&aacute;tica como &eacute; poss&iacute;vel desenvolver 
+  um webservice composto por duas interfaces. Uma IVerificaCPF para acessar o 
+  nosso m&eacute;todo VerificaCPF e outra IDMdados para acessar o banco de dados. 
+  Uma &eacute; independente da outra. Voc&ecirc; pode criar um webservice com 
+  uma Interface e v&aacute;rios m&eacute;todos com ou sem DataModule ou ao contr&aacute;rio 
+  um webservice apenas com uma Interface para um DataModule sem Interfaces para 
+  m&eacute;todos. Mostramos tamb&eacute;m que para acessar a Interface dos m&eacute;todos 
+  utilizamos o HTTPRio e para acessar a Interface do DataModule usamos o SOAPConnection 
+  com o ClientDataSet. Voc&ecirc; pode, na maioria dos casos, substituir a tecnologia 
+  DCOM pelo webservice, se usar o ClientDadatSet, sem nenhum esfor&ccedil;o. Basta 
+  criar um webservice, sem Interface para os m&eacute;todos, inserir uma Interface 
+  para o DataModule e copiar todos os componentes do seu DCOM Server para o datamodule 
+  do webservice. No lado cliente basta substitur o componente DCOMConnection pelo 
+  SOAPConnection.<br>
+  <br>
+  <br>
+  Fa&ccedil;a <a href="http://www.emc50.com/borcon2004/MeuWebService.zip">aqui 
+  o download</a> dos programas fonte deste exemplo.<br>
+  <br>
+  Se voc&ecirc; tiver alguma d&uacute;vida sobre este artigo envie um email para 
+  <a href="mailTo:borcon2004@abreuretto.com">borcon2004@abreuretto.com</a> </font></p>
+</body>
+</html>

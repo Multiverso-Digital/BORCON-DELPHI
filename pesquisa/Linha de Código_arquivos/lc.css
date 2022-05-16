@@ -1,0 +1,57 @@
+.link_home {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_home:hover {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; BACKGROUND-COLOR: #ffdb4a
+}
+.link_home_canais {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_home_canais:hover {
+	FONT-SIZE: 12px; COLOR: #113762; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; BACKGROUND-COLOR: #ffdb49
+}
+.link_9 {
+	FONT-SIZE: 9px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_9:hover {
+	FONT-SIZE: 9px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; BACKGROUND-COLOR: #ffdb4a
+}
+.link_10 {
+	FONT-SIZE: 10px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_10:hover {
+	FONT-SIZE: 10px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; BACKGROUND-COLOR: #ffdb4a
+}
+.link_10_semhover {
+	FONT-SIZE: 10px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_11 {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_11:hover {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; BACKGROUND-COLOR: #ffdb4a
+}
+.link_11_maroon {
+	FONT-SIZE: 11px; COLOR: #800000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_11_maroon:hover {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; BACKGROUND-COLOR: #ffdb4a
+}
+.link_11_gray {
+	FONT-SIZE: 11px; COLOR: #313131; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_11_transp {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_12 {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.link_12:hover {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; BACKGROUND-COLOR: #ffdb4a
+}
+.link_12_semhover {
+	FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: Verdana, Helvetica, Arial, sans-serif; TEXT-DECORATION: none
+}
+.botoes {
+	FONT-SIZE: 8pt; BORDER-LEFT-COLOR: #c0c0c0; BORDER-BOTTOM-COLOR: #000000; COLOR: #333333; BORDER-TOP-COLOR: #c0c0c0; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; BACKGROUND-COLOR: #ffffff; BORDER-RIGHT-COLOR: #000000
+}
